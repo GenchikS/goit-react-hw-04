@@ -47,7 +47,7 @@ function App() {
         const { data } = await axios.get(
           `https://api.unsplash.com/search/photos?client_id=${API_KEY}&query=${query}&page=${page}&per_page=12&orientation=landscape`
         );
-        setImages(data.results);
+        setImages(() => [...images, ...data.results]);
         setIsEmpty(false);
         // console.log("data", data.results.length);
         if (!data.results.length > 0) {
@@ -71,7 +71,7 @@ function App() {
       }
     };
     dataFeach();
-  }, [page, query, isEmpty]);
+  }, [page, query]);
 
   //  ф-ція повернення значення form
   const onHandeleSubmit = (searchQuery) => {
@@ -90,7 +90,6 @@ function App() {
   const onLoadMoreBtn = () => {
     setIsEmpty(true);
     setPage(page + 1);
-    setImages((prevImages) => [...prevImages, ...images]);
   };
 
   // модальне вікно
